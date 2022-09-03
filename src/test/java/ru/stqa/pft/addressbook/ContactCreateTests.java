@@ -15,7 +15,7 @@ public class ContactCreateTests {
     private StringBuffer verificationErrors = new StringBuffer();
     private JavascriptExecutor js;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setUp() throws Exception {
         wd = new ChromeDriver();
         wd.get("http://localhost/addressbook/");
@@ -92,7 +92,7 @@ public class ContactCreateTests {
         wd.findElement(By.linkText("add new")).click();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void tearDown() throws Exception {
         wd.quit();
     }
