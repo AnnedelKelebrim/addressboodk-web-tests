@@ -10,10 +10,6 @@ import org.openqa.selenium.support.ui.Select;
 
 public class ContactCreateTests {
     private WebDriver wd;
-    private String baseUrl;
-    private boolean acceptNextAlert = true;
-    private StringBuffer verificationErrors = new StringBuffer();
-    private JavascriptExecutor js;
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() throws Exception {
@@ -112,21 +108,6 @@ public class ContactCreateTests {
             return true;
         } catch (NoAlertPresentException e) {
             return false;
-        }
-    }
-
-    private String closeAlertAndGetItsText() {
-        try {
-            Alert alert = wd.switchTo().alert();
-            String alertText = alert.getText();
-            if (acceptNextAlert) {
-                alert.accept();
-            } else {
-                alert.dismiss();
-            }
-            return alertText;
-        } finally {
-            acceptNextAlert = true;
         }
     }
 }
