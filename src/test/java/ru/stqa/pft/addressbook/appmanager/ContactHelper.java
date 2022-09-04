@@ -2,9 +2,6 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
-import ru.stqa.pft.addressbook.appmanager.HelperBase;
-import ru.stqa.pft.addressbook.appmanager.NavigationHelper;
 import ru.stqa.pft.addressbook.model.ContactData;
 
 public class ContactHelper extends HelperBase {
@@ -28,12 +25,12 @@ public class ContactHelper extends HelperBase {
         type(By.name("mobile"), contactData.getMobilePhone());
         type(By.name("email"), contactData.getEmail());
         selectList(By.name("bday"), contactData.getBday());
-        selectList(By.name("bmonth"),contactData.getBmonth());
-        type(By.name("byear"),contactData.getByear());
-        selectList(By.name("new_group"),contactData.getContactGroup());
-        type(By.name("address2"),contactData.getAddress());
-        type(By.name("phone2"),contactData.getPersPhone());
-        type(By.name("notes"),contactData.getNotes());
+        selectList(By.name("bmonth"), contactData.getBmonth());
+        type(By.name("byear"), contactData.getByear());
+        selectList(By.name("new_group"), contactData.getContactGroup());
+        type(By.name("address2"), contactData.getAddress());
+        type(By.name("phone2"), contactData.getPersPhone());
+        type(By.name("notes"), contactData.getNotes());
     }
 
 }
