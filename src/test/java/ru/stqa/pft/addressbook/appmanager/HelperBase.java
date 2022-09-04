@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class HelperBase {
     protected ChromeDriver wd;
@@ -28,5 +29,14 @@ public class HelperBase {
         } catch (NoAlertPresentException e) {
             return false;
         }
+    }
+
+    protected void selectList(By locator, String value) {
+        click(locator);
+        new Select(wd.findElement(locator)).selectByVisibleText(value);
+    }
+
+    public void goToCreateContactPage() {
+        click(By.linkText("add new"));
     }
 }
