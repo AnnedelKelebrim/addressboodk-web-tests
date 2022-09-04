@@ -3,7 +3,6 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
-import ru.stqa.pft.addressbook.tests.ContactHelper;
 
 import java.time.Duration;
 
