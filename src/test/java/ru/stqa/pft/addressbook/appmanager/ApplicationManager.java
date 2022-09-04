@@ -3,36 +3,27 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Duration;
 
 public class ApplicationManager {
     protected ChromeDriver wd;
-    private  GroupHelper groupHelper;
+    private SessionHelper sessionHelper;
+    private NavigationHelper navigationHelper;
+    private GroupHelper groupHelper;
 
     public void init() {
         wd = new ChromeDriver();
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         wd.get("http://localhost/addressbook/");
         groupHelper = new GroupHelper(wd);
-        login("admin", "secret");
+        sessionHelper = new SessionHelper(wd);
+        navigationHelper = new NavigationHelper(wd);
+        sessionHelper.login("admin", "secret");
     }
 
-    private void login(String userName, String password) {
-        wd.findElement(By.name("user")).clear();
-        wd.findElement(By.name("user")).sendKeys(userName);
-        wd.findElement(By.name("pass")).clear();
-        wd.findElement(By.name("pass")).sendKeys(password);
-        wd.findElement(By.xpath("//input[@value='Login']")).click();
-    }
-
-    public void goToGroupPage() {
-        wd.findElement(By.linkText("groups")).click();
-    }
-
-    public void stop() {
+        public void stop() {
         wd.quit();
     }
 
@@ -56,5 +47,9 @@ public class ApplicationManager {
 
     public GroupHelper getGroupHelper() {
         return groupHelper;
+    }
+
+    public NavigationHelper getNavigationHelper() {
+        return navigationHelper;
     }
 }
