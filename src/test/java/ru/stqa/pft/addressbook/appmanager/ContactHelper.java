@@ -27,7 +27,6 @@ public class ContactHelper extends HelperBase {
         selectList(By.name("bday"), contactData.getBday());
         selectList(By.name("bmonth"), contactData.getBmonth());
         type(By.name("byear"), contactData.getByear());
-        selectList(By.name("new_group"), contactData.getContactGroup());
         type(By.name("address2"), contactData.getAddress());
         type(By.name("phone2"), contactData.getPersPhone());
         type(By.name("notes"), contactData.getNotes());
@@ -41,11 +40,19 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//input[@value='Delete']"));
     }
 
-    public void goToCreateContactPage() {
-        click(By.linkText("add new"));
-    }
-
     public void closeAlert() {
         wd.switchTo().alert().accept();
+    }
+
+    public void editContact() {
+        click(By.xpath("//img[@alt='Edit']"));
+    }
+
+    public void submitModification() {
+        click(By.xpath("//div[@id='content']/form/input[22]"));
+    }
+
+    public void returnToHomePage() {
+        click(By.linkText("home page"));
     }
 }
