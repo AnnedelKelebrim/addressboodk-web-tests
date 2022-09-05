@@ -33,4 +33,19 @@ public class ContactHelper extends HelperBase {
         type(By.name("notes"), contactData.getNotes());
     }
 
+    public void choiceContact(String id) {
+        click(By.id(id));
+    }
+
+    public void deleteContact() {
+        click(By.xpath("//input[@value='Delete']"));
+    }
+
+    public void goToCreateContactPage() {
+        click(By.linkText("add new"));
+    }
+
+    public void closeAlert() {
+        wd.switchTo().alert().accept();
+    }
 }

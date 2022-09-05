@@ -35,8 +35,4 @@ public class HelperBase {
         click(locator);
         new Select(wd.findElement(locator)).selectByVisibleText(value);
     }
-
-    public void goToCreateContactPage() {
-        click(By.linkText("add new"));
-    }
 }
