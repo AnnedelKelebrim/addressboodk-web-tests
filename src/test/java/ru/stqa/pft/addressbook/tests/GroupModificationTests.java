@@ -7,8 +7,11 @@ import ru.stqa.pft.addressbook.model.GroupData;
 public class GroupModificationTests extends TestBase {
 
     @Test
-    public void testGroupModification(){
+    public void testGroupModification() {
         app.getNavigationHelper().goToGroupPage();
+        if (!app.getGroupHelper().isThereAGroup()) {
+            app.getGroupHelper().createGroup(new GroupData("Создана чтоб меняться", "неважный параметр 1", "неважный параметр 2"));
+        }
         app.getGroupHelper().selectGroup();
         app.getGroupHelper().initGroupModification();
         app.getGroupHelper().fillGroupForm(new GroupData("Test1-modify", "TestHead", "TestFoot"));
