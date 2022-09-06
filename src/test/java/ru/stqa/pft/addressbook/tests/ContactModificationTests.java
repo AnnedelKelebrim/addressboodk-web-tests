@@ -10,7 +10,7 @@ public class ContactModificationTests extends TestBase {
     public void testContactModification() throws Exception {
         app.getNavigationHelper().goToHomePage();
         app.getContactHelper().editContact();
-        app.getContactHelper().fillContactForm(new ContactData("Самуил", "Яковлевич", "Маршак", "Изменили из теста", "Писатель", "Союз писателей", "г.Чёртовы Кулички, д.4", "488-09-94", "79280398811", "kulichki@mail.ru", "16", "November", "1800", "г. Чёртовы Кулички, д.15, кв.1", "777-66-55", "Давайте всё получится?"));
+        app.getContactHelper().fillContactForm(new ContactData("Самуил", "Яковлевич", "Маршак", "Изменили из теста", "Писатель", "Союз писателей", "г.Чёртовы Кулички, д.4", "488-09-94", "79280398811", "kulichki@mail.ru", "16", "November", "1800", "Test1", "г. Чёртовы Кулички, д.15, кв.1", "777-66-55", "Давайте всё получится?"), false);
         app.getContactHelper().submitModification();
         app.getContactHelper().returnToHomePage();
     }

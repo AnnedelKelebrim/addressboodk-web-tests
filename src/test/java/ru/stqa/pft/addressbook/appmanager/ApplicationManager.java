@@ -32,7 +32,7 @@ public class ApplicationManager {
             wd = new InternetExplorerDriver();
         }
 
-        wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
         wd.get("http://localhost/addressbook/");
         groupHelper = new GroupHelper(wd);
         sessionHelper = new SessionHelper(wd);
@@ -43,15 +43,6 @@ public class ApplicationManager {
 
     public void stop() {
         wd.quit();
-    }
-
-    private boolean isElementPresent(By by) {
-        try {
-            wd.findElement(by);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
     }
 
     public GroupHelper getGroupHelper() {
