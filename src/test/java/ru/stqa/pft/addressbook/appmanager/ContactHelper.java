@@ -41,8 +41,8 @@ public class ContactHelper extends HelperBase {
         }
     }
 
-    public void choiceContact(String id) {
-        click(By.id(id));
+    public void choiceContact(By locator) {
+        click(locator);
     }
 
     public void deleteContact() {
