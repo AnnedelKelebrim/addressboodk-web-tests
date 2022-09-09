@@ -11,8 +11,16 @@ public class ContactHelper extends HelperBase {
         super(wd);
     }
 
-    public void createContact() {
+    public void submitContactCreation() {
         click(By.xpath("//div[@id='content']/form/input[21]"));
+    }
+
+    public void submitContactDeletion() {
+        click(By.xpath("//input[@value='Delete']"));
+    }
+
+    public void submitContactEdition() {
+        click(By.xpath("//div[@id='content']/form/input[22]"));
     }
 
     public void fillContactForm(ContactData contactData, boolean creation) {
@@ -37,7 +45,6 @@ public class ContactHelper extends HelperBase {
             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
-            ;
         }
     }
 
@@ -45,40 +52,38 @@ public class ContactHelper extends HelperBase {
         click(locator);
     }
 
-    public void deleteContact() {
-        click(By.xpath("//input[@value='Delete']"));
-    }
-
-    public void closeAlert() {
-        wd.switchTo().alert().accept();
-    }
-
-    public void editContact() {
+    public void goToEditContactPage() {
         click(By.xpath("//img[@alt='Edit']"));
-    }
-
-    public void submitModification() {
-        click(By.xpath("//div[@id='content']/form/input[22]"));
     }
 
     public void returnToHomePage() {
         click(By.linkText("home page"));
     }
 
+    public void closeAlert() {
+        wd.switchTo().alert().accept();
+    }
+
     public boolean isThereAContact() {
         return isElementPresent(By.name("entry"));
     }
 
-    public void contactCreation(ContactData contactData) {
+    public void createContact(ContactData contactData) {
         fillContactForm(contactData, true);
-        createContact();
+        submitContactCreation();
         returnToHomePage();
     }
 
+    public void deleteContact() {
+        choiceContact(By.name("selected[]"));
+        submitContactDeletion();
+        closeAlert();
+    }
+
     public void editContact(ContactData contactData) {
-        editContact();
+        goToEditContactPage();
         fillContactForm(contactData, false);
-        submitModification();
+        submitContactEdition();
         returnToHomePage();
     }
 }
