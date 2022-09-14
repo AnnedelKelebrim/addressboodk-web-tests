@@ -48,8 +48,8 @@ public class ContactHelper extends HelperBase {
         }
     }
 
-    public void choiceContact(By locator) {
-        click(locator);
+    public void choiceContact() {
+        click(By.name("selected[]"));
     }
 
     public void goToEditContactPage() {
@@ -75,7 +75,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void deleteContact() {
-        choiceContact(By.name("selected[]"));
+        choiceContact();
         submitContactDeletion();
         closeAlert();
     }
