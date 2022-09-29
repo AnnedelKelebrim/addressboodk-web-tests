@@ -8,8 +8,11 @@ import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 public class ContactHelper extends HelperBase {
-    public ContactHelper(WebDriver wd) {
+    private ApplicationManager app;
+
+    public ContactHelper(WebDriver wd, ApplicationManager app) {
         super(wd);
+        this.app = app;
     }
 
     public void submitContactCreation() {
@@ -28,10 +31,9 @@ public class ContactHelper extends HelperBase {
 
         if (creation) {
             if (!isThereAGroupByName(contactData.getGroup())) {
-                NavigationHelper app = new NavigationHelper(wd);
-                app.goToGroupPage();
-                new GroupHelper(wd).createGroup(new GroupData(contactData.getGroup(), "skdjfh", "ajdhfbvlksjdhv"));
-                app.goToCreateContactPage();
+                app.getNavigationHelper().goToGroupPage();
+                app.getGroupHelper().createGroup(new GroupData(contactData.getGroup(), "skdjfh", "ajdhfbvlksjdhv"));
+                app.getNavigationHelper().goToCreateContactPage();
             }
             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
         } else {
