@@ -58,8 +58,8 @@ public class ContactHelper extends HelperBase {
         type(By.name("notes"), contactData.getNotes());
     }
 
-    public void choiceContact() {
-        click(By.name("selected[]"));
+    public void selectContact(int index) {
+        wd.findElement(By.cssSelector("input[id='"+index+"']")).click();
     }
 
     public void goToEditContactPage() {
@@ -89,7 +89,6 @@ public class ContactHelper extends HelperBase {
     }
 
     public void deleteContact() {
-        choiceContact();
         submitContactDeletion();
         closeAlert();
     }

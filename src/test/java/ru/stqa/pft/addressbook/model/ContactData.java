@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.model;
 
 public class ContactData {
+    private int id;
     private final String firstName;
     private final String middleName;
     private final String lastName;
@@ -37,10 +38,31 @@ public class ContactData {
         this.address = address;
         this.persPhone = persPhone;
         this.notes = notes;
-
-
     }
 
+    public ContactData(int id, String firstName, String middleName, String lastName, String nickName, String who, String company, String companyAddress, String homePhone, String mobilePhone, String email, String bday, String bmonth, String byear, String group, String address, String persPhone, String notes) {
+        this.id = id;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.nickName = nickName;
+        this.who = who;
+        this.company = company;
+        this.companyAddress = companyAddress;
+        this.homePhone = homePhone;
+        this.mobilePhone = mobilePhone;
+        this.email = email;
+        this.bday = bday;
+        this.bmonth = bmonth;
+        this.byear = byear;
+        this.group = group;
+        this.address = address;
+        this.persPhone = persPhone;
+        this.notes = notes;
+    }
+    public int getId() {
+        return id;
+    }
     public String getFirstName() {
         return firstName;
     }
@@ -107,5 +129,9 @@ public class ContactData {
 
     public String getNotes() {
         return notes;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
