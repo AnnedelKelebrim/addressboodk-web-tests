@@ -12,9 +12,9 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     public void testContactCreation() throws Exception {
-        app.getNavigationHelper().goToHomePage();
-        List<ContactData> before = app.getContactHelper().getContactList();
-        app.getNavigationHelper().goToCreateContactPage();
+        app.goTo().homePage();
+        List<ContactData> before = app.contact().list();
+        app.goTo().createContactPage();
         ContactData contactData = new ContactData
                 ("Самуил",
                         "Яковлевич",
@@ -33,8 +33,8 @@ public class ContactCreationTests extends TestBase {
                         "г. Чёртовы Кулички, д.15, кв.1",
                         "777-66-55",
                         "Давайте всё получится?");
-        app.getContactHelper().createContact(contactData);
-        List<ContactData> after = app.getContactHelper().getContactList();
+        app.contact().createContact(contactData);
+        List<ContactData> after = app.contact().list();
         contactData.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
         before.add(contactData);
         Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());

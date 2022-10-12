@@ -35,9 +35,9 @@ public class ContactHelper extends HelperBase {
 
         if (creation) {
             if (!isThereAGroupByName(contactData.getGroup())) {
-                app.getNavigationHelper().goToGroupPage();
-                app.getGroupHelper().createGroup(new GroupData(contactData.getGroup(), "skdjfh", "ajdhfbvlksjdhv"));
-                app.getNavigationHelper().goToCreateContactPage();
+                app.goTo().groupPage();
+                app.group().create(new GroupData(contactData.getGroup(), "skdjfh", "ajdhfbvlksjdhv"));
+                app.goTo().createContactPage();
             }
             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
         } else {
@@ -92,23 +92,49 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
-    public void deleteContact() {
+    public void deleteContact(int id) {
+        selectContact(id);
         submitContactDeletion();
         closeAlert();
     }
 
-    public void editContact(ContactData contactData) {
+    public void modify(ContactData contactData) {
         goToEditContactPage(contactData.getId());
         fillContactForm(contactData, false);
         submitContactEdition();
         returnToHomePage();
     }
 
+    public void modify(List<ContactData> before, int index) {
+        int contactId = before.get(index).getId();
+        ContactData contactData = (new ContactData(
+                contactId,
+                "Новая",
+                "запчасть",
+                "бифора",
+                "Самоха",
+                "Писатель",
+                "Союз писателей",
+                "г.Чёртовы Кулички, д.4",
+                "488-09-94",
+                "79280398811",
+                "kulichki@mail.ru",
+                "16",
+                "November",
+                "1800",
+                "Теперь должно получиться",
+                "г. Чёртовы Кулички, д.15, кв.1",
+                "777-66-55",
+                "Давайте всё получится?"));
+        modify(contactData);
+        app.goTo().homePage();
+    }
+
     public int getContactCount() {
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public List<ContactData> getContactList() {
+    public List<ContactData> list() {
         List<ContactData> contacts = new ArrayList<ContactData>();
         List<WebElement> elements = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
         for (WebElement element : elements) {
