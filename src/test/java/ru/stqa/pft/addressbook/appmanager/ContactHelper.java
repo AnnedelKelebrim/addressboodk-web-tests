@@ -36,7 +36,7 @@ public class ContactHelper extends HelperBase {
         if (creation) {
             if (!isThereAGroupByName(contactData.getGroup())) {
                 app.goTo().groupPage();
-                app.group().create(new GroupData(contactData.getGroup(), "skdjfh", "ajdhfbvlksjdhv"));
+                app.group().create(new GroupData().withName(contactData.getGroup()).withHeader("skdjfh").withFooter("ajdhfbvlksjdhv"));
                 app.goTo().createContactPage();
             }
             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
@@ -103,31 +103,6 @@ public class ContactHelper extends HelperBase {
         fillContactForm(contactData, false);
         submitContactEdition();
         returnToHomePage();
-    }
-
-    public void modify(List<ContactData> before, int index) {
-        int contactId = before.get(index).getId();
-        ContactData contactData = (new ContactData(
-                contactId,
-                "Новая",
-                "запчасть",
-                "бифора",
-                "Самоха",
-                "Писатель",
-                "Союз писателей",
-                "г.Чёртовы Кулички, д.4",
-                "488-09-94",
-                "79280398811",
-                "kulichki@mail.ru",
-                "16",
-                "November",
-                "1800",
-                "Теперь должно получиться",
-                "г. Чёртовы Кулички, д.15, кв.1",
-                "777-66-55",
-                "Давайте всё получится?"));
-        modify(contactData);
-        app.goTo().homePage();
     }
 
     public int getContactCount() {

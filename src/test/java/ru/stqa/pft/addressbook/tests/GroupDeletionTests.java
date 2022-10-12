@@ -13,7 +13,7 @@ public class GroupDeletionTests extends TestBase {
     public void ensurePreconditions() {
         app.goTo().groupPage();
         if (app.group().list().size() == 0) {
-            app.group().create(new GroupData("Создана чтоб умереть", "неважный параметр 1", "неважный параметр 2"));
+            app.group().create(new GroupData().withName("Создана чтоб умереть").withHeader("неважный параметр 1").withFooter("неважный параметр 2"));
         }
     }
 
