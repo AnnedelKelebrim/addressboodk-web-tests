@@ -6,11 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ContactHelper extends HelperBase {
     private ApplicationManager app;
@@ -87,8 +86,8 @@ public class ContactHelper extends HelperBase {
         return isElementPresent(By.xpath("//select[@name='new_group']/option[.='" + group + "']"));
     }
 
-    public void createContact(ContactData contactData) {
-        fillContactForm(contactData, true);
+    public void create(ContactData contact) {
+        fillContactForm(contact, true);
         submitContactCreation();
         returnToHomePage();
     }
@@ -110,8 +109,8 @@ public class ContactHelper extends HelperBase {
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public Set<ContactData> all() {
-        Set<ContactData> contacts = new HashSet<>();
+    public Contacts all() {
+        Contacts contacts = new Contacts();
         List<WebElement> elements = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.xpath("./td/input")).getAttribute("id"));
