@@ -8,8 +8,9 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
     private ApplicationManager app;
@@ -62,8 +63,8 @@ public class ContactHelper extends HelperBase {
         type(By.name("notes"), contactData.getNotes());
     }
 
-    public void selectContact(int index) {
-        wd.findElement(By.cssSelector("input[id='" + index + "']")).click();
+    public void selectContactById(int id) {
+        wd.findElement(By.cssSelector("input[id='" + id + "']")).click();
     }
 
     public void goToEditContactPage(int id) {
@@ -92,15 +93,15 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
-    public void deleteContact(int id) {
-        selectContact(id);
+    public void deleteContact(ContactData contact) {
+        selectContactById(contact.getId());
         submitContactDeletion();
         closeAlert();
     }
 
-    public void modify(ContactData contactData) {
-        goToEditContactPage(contactData.getId());
-        fillContactForm(contactData, false);
+    public void modify(ContactData contact) {
+        goToEditContactPage(contact.getId());
+        fillContactForm(contact, false);
         submitContactEdition();
         returnToHomePage();
     }
@@ -109,8 +110,8 @@ public class ContactHelper extends HelperBase {
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public List<ContactData> list() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
+    public Set<ContactData> all() {
+        Set<ContactData> contacts = new HashSet<>();
         List<WebElement> elements = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.xpath("./td/input")).getAttribute("id"));
