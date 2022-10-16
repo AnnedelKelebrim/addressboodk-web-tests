@@ -63,9 +63,9 @@ public class ContactModificationTests extends TestBase {
                 .withNotes("Давайте всё получится?");
         ;
         app.contact().modify(contact);
-        Contacts after = app.contact().all();
 
-        assertThat(after.size(), equalTo(before.size()));
+        assertThat(app.contact().count(), equalTo(before.size()));
+        Contacts after = app.contact().all();
         assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }
 }

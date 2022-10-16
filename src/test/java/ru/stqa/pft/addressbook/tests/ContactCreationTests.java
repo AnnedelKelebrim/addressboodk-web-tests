@@ -34,9 +34,9 @@ public class ContactCreationTests extends TestBase {
                 .withPersPhone("777-66-55")
                 .withNotes("Давайте всё получится?");
         app.contact().create(contact);
-        Contacts after = app.contact().all();
 
-        assertThat(after.size(), equalTo(before.size() + 1));
+        assertThat(app.contact().count(), equalTo(before.size() + 1));
+        Contacts after = app.contact().all();
         assertThat(after, equalTo(
                 before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     }
