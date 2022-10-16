@@ -40,7 +40,7 @@ public class ContactDeletionTests extends TestBase {
     public void testContactDeletion() throws Exception {
         Contacts before = app.contact().all();
         ContactData deletedContact = before.iterator().next();
-        app.contact().deleteContact(deletedContact);
+        app.contact().delete(deletedContact);
         app.goTo().homePage();
         Contacts after = app.contact().all();
 
