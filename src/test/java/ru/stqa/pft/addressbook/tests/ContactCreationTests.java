@@ -25,13 +25,13 @@ public class ContactCreationTests extends TestBase {
                 .withCompanyAddress("г.Чёртовы Кулички д.4")
                 .withHomePhone("488-09-94")
                 .withMobilePhone("79280398811")
+                .withWorkPhone("7(856)5236633")
                 .withEmail("kulichki@mail.ru")
                 .withBday("16")
                 .withBmonth("November")
                 .withByear("1800")
                 .withGroup("Теперь должно получиться")
                 .withAddress("г. Чёртовы Кулички д.15 кв.1")
-                .withPersPhone("777-66-55")
                 .withNotes("Давайте всё получится?");
         app.contact().create(contact);
 

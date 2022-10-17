@@ -4,27 +4,27 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.appmanager.TestBase;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.Contacts;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ContactDeletionTests extends TestBase {
+public class ContactPhoneTests extends TestBase {
+
     @BeforeMethod
     public void ensurePreconditions() {
         app.goTo().homePage();
         if (app.contact().all().size() == 0) {
-            app.goTo().createContactPage();
             app.contact().create(new ContactData()
                     .withFirstName("Подготовка")
-                    .withMiddleName("Данных")
-                    .withLastName("Удаление")
+                    .withMiddleName("Для номера телефона")
+                    .withLastName("Данных")
                     .withNickName("Самоха")
                     .withWho("Писатель")
                     .withCompany("Союз писателей")
                     .withCompanyAddress("г.Чёртовы Кулички д.4")
                     .withHomePhone("488-09-94")
                     .withMobilePhone("79280398811")
+                    .withWorkPhone("7585")
                     .withEmail("kulichki@mail.ru")
                     .withBday("16")
                     .withBmonth("November")
@@ -36,14 +36,17 @@ public class ContactDeletionTests extends TestBase {
     }
 
     @Test
-    public void testContactDeletion() throws Exception {
-        Contacts before = app.contact().all();
-        ContactData deletedContact = before.iterator().next();
-        app.contact().delete(deletedContact);
+    public void testContactPhones() {
         app.goTo().homePage();
+        ContactData contact = app.contact().all().iterator().next();
+        ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
 
-        assertThat(app.contact().count(), equalTo(before.size() - 1));
-        Contacts after = app.contact().all();
-        assertThat(after, equalTo(before.without(deletedContact)));
+        assertThat(contact.getHomePhone(), equalTo(cleaned(contactInfoFromEditForm.getHomePhone())));
+        assertThat(contact.getMobilePhone(), equalTo(cleaned(contactInfoFromEditForm.getMobilePhone())));
+        assertThat(contact.getWorkPhone(), equalTo(cleaned(contactInfoFromEditForm.getWorkPhone())));
+    }
+
+    public String cleaned(String phone) {
+        return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
     }
 }

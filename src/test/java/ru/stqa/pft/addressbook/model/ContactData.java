@@ -13,13 +13,13 @@ public class ContactData {
     private String companyAddress;
     private String homePhone;
     private String mobilePhone;
+    private String workPhone;
     private String email;
     private String bday;
     private String bmonth;
     private String byear;
     private String group;
     private String address;
-    private String persPhone;
     private String notes;
 
 
@@ -63,6 +63,10 @@ public class ContactData {
         return mobilePhone;
     }
 
+    public String getWorkPhone() {
+        return workPhone;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -85,10 +89,6 @@ public class ContactData {
 
     public String getAddress() {
         return address;
-    }
-
-    public String getPersPhone() {
-        return persPhone;
     }
 
     public String getNotes() {
@@ -145,6 +145,11 @@ public class ContactData {
         return this;
     }
 
+    public ContactData withWorkPhone(String workPhone) {
+        this.workPhone = workPhone;
+        return this;
+    }
+
     public ContactData withEmail(String email) {
         this.email = email;
         return this;
@@ -172,11 +177,6 @@ public class ContactData {
 
     public ContactData withAddress(String address) {
         this.address = address;
-        return this;
-    }
-
-    public ContactData withPersPhone(String persPhone) {
-        this.persPhone = persPhone;
         return this;
     }
 

@@ -31,7 +31,6 @@ public class ContactModificationTests extends TestBase {
                     .withByear("1800")
                     .withGroup("Теперь должно получиться")
                     .withAddress("г. Чёртовы Кулички д.15 кв.1")
-                    .withPersPhone("777-66-55")
                     .withNotes("Давайте всё получится?"));
             app.contact().returnToHomePage();
         }
@@ -59,9 +58,7 @@ public class ContactModificationTests extends TestBase {
                 .withByear("1800")
                 .withGroup("Теперь должно получиться")
                 .withAddress("г. Чёртовы Кулички д.15 кв.1")
-                .withPersPhone("777-66-55")
                 .withNotes("Давайте всё получится?");
-        ;
         app.contact().modify(contact);
 
         assertThat(app.contact().count(), equalTo(before.size()));
