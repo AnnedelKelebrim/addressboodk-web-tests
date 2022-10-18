@@ -26,7 +26,7 @@ public class ContactCreationTests extends TestBase {
                 .withHomePhone("488-09-94")
                 .withMobilePhone("79280398811")
                 .withWorkPhone("7(856)5236633")
-                .withEmail("kulichki@mail.ru")
+                .withFirstEmail("kulichki@mail.ru")
                 .withBday("16")
                 .withBmonth("November")
                 .withByear("1800")
