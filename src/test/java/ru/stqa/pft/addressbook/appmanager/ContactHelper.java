@@ -9,7 +9,9 @@ import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
     private ApplicationManager app;
@@ -54,7 +56,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("home"), contactData.getHomePhone());
         type(By.name("mobile"), contactData.getMobilePhone());
         type(By.name("work"), contactData.getWorkPhone());
-        type(By.name("email"), contactData.getEmail());
+        type(By.name("email"), contactData.getFirstEmail());
         selectList(By.name("bday"), contactData.getBday());
         selectList(By.name("bmonth"), contactData.getBmonth());
         type(By.name("byear"), contactData.getByear());
@@ -125,17 +127,29 @@ public class ContactHelper extends HelperBase {
             String lastname = element.findElement(By.xpath("./td[2]")).getText();
             String firstname = element.findElement(By.xpath("./td[3]")).getText();
             String address = element.findElement(By.xpath("./td[4]")).getText();
+            String allEmails = searchAllEmails(element).toString();
             String allPhones = element.findElement(By.xpath("./td[6]")).getText();
             ContactData contact = new ContactData()
                     .withId(id)
                     .withFirstName(firstname)
                     .withLastName(lastname)
                     .withFirstAddress(address)
-                    .withAllPhones(allPhones);
+                    .withAllPhones(allPhones)
+                    .withAllEmails(allEmails);
             contactCache.add(contact);
         }
 
         return new Contacts(contactCache);
+    }
+
+    private static Set<String> searchAllEmails(WebElement contact) {
+        Set<WebElement> allEmailsRows = new HashSet<>(contact.findElements(By.xpath("./td[5]/a")));
+        Set<String> allEmails = new HashSet<>();
+        for (WebElement emailRow : allEmailsRows) {
+            String email = emailRow.getText();
+            allEmails.add(email);
+        }
+        return allEmails;
     }
 
     public ContactData infoFromEditForm(ContactData contact) {
@@ -146,13 +160,20 @@ public class ContactHelper extends HelperBase {
         String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
         String work = wd.findElement(By.name("work")).getAttribute("value");
         String address = wd.findElement(By.cssSelector("textarea[name=\"address\"]")).getText();
+        String email1 = wd.findElement(By.name("email")).getAttribute("value");
+        String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+        String email3 = wd.findElement(By.name("email3")).getAttribute("value");
         wd.navigate().back();
         return new ContactData()
+                .withId(contact.getId())
                 .withFirstName(firstName)
                 .withLastName(lastName)
                 .withHomePhone(home)
                 .withMobilePhone(mobile)
                 .withWorkPhone(work)
-                .withFirstAddress(address);
+                .withFirstAddress(address)
+                .withFirstEmail(email1)
+                .withSecondEmail(email2)
+                .withThirdEmail(email3);
     }
 }
