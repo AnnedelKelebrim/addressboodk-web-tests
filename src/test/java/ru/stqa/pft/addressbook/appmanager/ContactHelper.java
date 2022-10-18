@@ -34,7 +34,6 @@ public class ContactHelper extends HelperBase {
     }
 
     public void fillContactForm(ContactData contactData, boolean creation) {
-
         if (creation) {
             if (!isThereAGroupByName(contactData.getGroup())) {
                 app.goTo().groupPage();
@@ -62,6 +61,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("byear"), contactData.getByear());
         type(By.name("address2"), contactData.getSecondAddress());
         type(By.name("notes"), contactData.getNotes());
+        attach(By.name("photo"), contactData.getPhoto());
     }
 
     public void selectContactById(int id) {
