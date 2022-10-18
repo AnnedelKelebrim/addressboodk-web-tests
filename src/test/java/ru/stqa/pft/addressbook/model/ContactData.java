@@ -10,7 +10,7 @@ public class ContactData {
     private String nickName;
     private String who;
     private String company;
-    private String companyAddress;
+    private String firstAddress;
     private String homePhone;
     private String mobilePhone;
     private String workPhone;
@@ -20,7 +20,7 @@ public class ContactData {
     private String bmonth;
     private String byear;
     private String group;
-    private String address;
+    private String secondAddress;
     private String notes;
 
 
@@ -52,8 +52,8 @@ public class ContactData {
         return company;
     }
 
-    public String getCompanyAddress() {
-        return companyAddress;
+    public String getFirstAddress() {
+        return firstAddress;
     }
 
     public String getHomePhone() {
@@ -92,8 +92,8 @@ public class ContactData {
         return group;
     }
 
-    public String getAddress() {
-        return address;
+    public String getSecondAddress() {
+        return secondAddress;
     }
 
     public String getNotes() {
@@ -135,8 +135,8 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withCompanyAddress(String companyAddress) {
-        this.companyAddress = companyAddress;
+    public ContactData withFirstAddress(String companyAddress) {
+        this.firstAddress = companyAddress;
         return this;
     }
 
@@ -185,8 +185,8 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withAddress(String address) {
-        this.address = address;
+    public ContactData withSecondAddress(String address) {
+        this.secondAddress = address;
         return this;
     }
 
