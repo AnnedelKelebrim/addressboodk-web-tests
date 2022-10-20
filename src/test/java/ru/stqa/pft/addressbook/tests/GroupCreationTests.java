@@ -6,6 +6,10 @@ import ru.stqa.pft.addressbook.appmanager.TestBase;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,16 +20,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupCreationTests extends TestBase {
     @DataProvider
-    public Iterator<Object[]> validGroups() {
+    public Iterator<Object[]> validGroups() throws IOException {
         List<Object[]> list = new ArrayList<>();
-        list.add(new Object[]{new GroupData().withName("name1").withHeader("header1").withFooter("footer1")});
-        list.add(new Object[]{new GroupData().withName("name1 2").withHeader("header1 22").withFooter("footer1 2")});
-        list.add(new Object[]{new GroupData().withName("name1 3").withHeader("header1 3").withFooter("footer1 3")});
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.csv")));
+        String line = reader.readLine();
+        while (line!=null){
+            String[] split = line.split(";");
+            list.add(new Object[]{new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
+            line = reader.readLine();
+        }
         return list.iterator();
     }
 
     @Test(dataProvider = "validGroups")
-    public void testGroupCreation(GroupData group) throws Exception {
+    public void testGroupCreation(GroupData group) {
         app.goTo().groupPage();
         Groups before = app.group().all();
         app.group().create(group);
@@ -36,8 +44,8 @@ public class GroupCreationTests extends TestBase {
                 before.withAdded(group.withId(after.stream().mapToInt(GroupData::getId).max().getAsInt()))));
     }
 
-    @Test
-    public void testBadGroupCreation() throws Exception {
+    @Test(enabled = false)
+    public void testBadGroupCreation() {
         app.goTo().groupPage();
         Groups before = app.group().all();
         GroupData group = new GroupData().withName("Test1'").withHeader("Вася").withFooter("Петя");

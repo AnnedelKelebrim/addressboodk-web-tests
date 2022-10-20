@@ -39,7 +39,23 @@ public class ContactDataGenerator {
     private static void save(List<ContactData> contacts, File file) throws IOException {
         Writer writer = new FileWriter(file);
         for (ContactData contact : contacts) {
-            writer.write(String.format("%s;%s;%s\n", contact.getFirstName(), contact.getLastName(), contact.getHomePhone()));
+            writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
+                    contact.getFirstName(),
+                    contact.getMiddleName(),
+                    contact.getLastName(),
+                    contact.getNickName(),
+                    contact.getWho(),
+                    contact.getCompany(),
+                    contact.getFirstAddress(),
+                    contact.getHomePhone(),
+                    contact.getMobilePhone(),
+                    contact.getFirstEmail(),
+                    contact.getBday(),
+                    contact.getBmonth(),
+                    contact.getByear(),
+                    contact.getGroup(),
+                    contact.getSecondAddress(),
+                    contact.getNotes()));
         }
         writer.close();
     }
@@ -47,9 +63,23 @@ public class ContactDataGenerator {
     private static List<ContactData> generateContacts(int count) {
         List<ContactData> contacts = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            contacts.add(new ContactData().withFirstName(String.format("Иннокентий %s", i))
-                    .withLastName(String.format("Петровский %s", i))
-                    .withHomePhone(String.format("85-85-5%s", i)));
+            contacts.add(new ContactData()
+                    .withFirstName("Vasya" + i)
+                    .withMiddleName("")
+                    .withLastName("Pupkin")
+                    .withNickName("Самоха")
+                    .withWho("Писатель")
+                    .withCompany("Союз писателей")
+                    .withFirstAddress("г.Чёртовы Кулички д." + i)
+                    .withHomePhone("488-09-94")
+                    .withMobilePhone("79280398811")
+                    .withFirstEmail("kulichki@mail.ru")
+                    .withBday("16")
+                    .withBmonth("November")
+                    .withByear("1800")
+                    .withGroup("Теперь должно получиться")
+                    .withSecondAddress("г. Чёртовы Кулички д.15 кв.1")
+                    .withNotes("Давайте всё получится?"));
         }
         return contacts;
     }
