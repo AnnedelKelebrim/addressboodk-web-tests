@@ -1,0 +1,38 @@
+<list>
+  <ru.stqa.pft.addressbook.model.ContactData>
+    <firstName>Vasya0</firstName>
+    <middleName></middleName>
+    <lastName>Pupkin</lastName>
+    <nickName>Самоха</nickName>
+    <who>Писатель</who>
+    <company>Союз писателей</company>
+    <firstAddress>г.Чёртовы Кулички д.0</firstAddress>
+    <homePhone>488-09-94</homePhone>
+    <mobilePhone>79280398811</mobilePhone>
+    <firstEmail>kulichki@mail.ru</firstEmail>
+    <bday>16</bday>
+    <bmonth>November</bmonth>
+    <byear>1800</byear>
+    <group>Теперь должно получиться</group>
+    <secondAddress>г. Чёртовы Кулички д.15 кв.1</secondAddress>
+    <notes>Давайте всё получится?</notes>
+  </ru.stqa.pft.addressbook.model.ContactData>
+  <ru.stqa.pft.addressbook.model.ContactData>
+    <firstName>Vasya1</firstName>
+    <middleName></middleName>
+    <lastName>Pupkin</lastName>
+    <nickName>Самоха</nickName>
+    <who>Писатель</who>
+    <company>Союз писателей</company>
+    <firstAddress>г.Чёртовы Кулички д.1</firstAddress>
+    <homePhone>488-09-94</homePhone>
+    <mobilePhone>79280398811</mobilePhone>
+    <firstEmail>kulichki@mail.ru</firstEmail>
+    <bday>16</bday>
+    <bmonth>November</bmonth>
+    <byear>1800</byear>
+    <group>Теперь должно получиться</group>
+    <secondAddress>г. Чёртовы Кулички д.15 кв.1</secondAddress>
+    <notes>Давайте всё получится?</notes>
+  </ru.stqa.pft.addressbook.model.ContactData>
+</list>

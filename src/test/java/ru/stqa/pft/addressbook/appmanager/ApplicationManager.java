@@ -6,9 +6,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.Browser;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Properties;
 
 public class ApplicationManager {
+    private final Properties properties;
     protected WebDriver wd;
     private SessionHelper sessionHelper;
     private NavigationHelper navigationHelper;
@@ -17,25 +22,30 @@ public class ApplicationManager {
     private String browser;
 
     public ApplicationManager(String browser) {
+
         this.browser = browser;
+        properties = new Properties();
     }
 
-    public void init() {
-        if (browser.equals(Browser.CHROME.toString())) {
+    public void init() throws IOException {
+        String target = System.getProperty("target", "local");
+        properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+
+        if (browser.equals(Browser.CHROME.browserName())) {
             wd = new ChromeDriver();
-        } else if (browser.equals(Browser.FIREFOX.toString())) {
+        } else if (browser.equals(Browser.FIREFOX.browserName())) {
             wd = new FirefoxDriver();
-        } else if (browser.equals(Browser.IE.toString())) {
+        } else if (browser.equals(Browser.IE.browserName())) {
             wd = new InternetExplorerDriver();
         }
 
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-        wd.get("http://localhost/addressbook/");
+        wd.get(properties.getProperty("web.baseUrl"));
         groupHelper = new GroupHelper(wd);
         sessionHelper = new SessionHelper(wd);
         navigationHelper = new NavigationHelper(wd);
         contactHelper = new ContactHelper(wd, this);
-        sessionHelper.login("admin", "secret");
+        sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"));
     }
 
     public void stop() {

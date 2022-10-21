@@ -1,0 +1,38 @@
+[
+  {
+    "firstName": "Vasya0",
+    "middleName": "",
+    "lastName": "Pupkin",
+    "nickName": "Самоха",
+    "who": "Писатель",
+    "company": "Союз писателей",
+    "firstAddress": "г.Чёртовы Кулички д.0",
+    "homePhone": "488-09-94",
+    "mobilePhone": "79280398811",
+    "firstEmail": "kulichki@mail.ru",
+    "bday": "16",
+    "bmonth": "November",
+    "byear": "1800",
+    "group": "Теперь должно получиться",
+    "secondAddress": "г. Чёртовы Кулички д.15 кв.1",
+    "notes": "Давайте всё получится?"
+  },
+  {
+    "firstName": "Vasya1",
+    "middleName": "",
+    "lastName": "Pupkin",
+    "nickName": "Самоха",
+    "who": "Писатель",
+    "company": "Союз писателей",
+    "firstAddress": "г.Чёртовы Кулички д.1",
+    "homePhone": "488-09-94",
+    "mobilePhone": "79280398811",
+    "firstEmail": "kulichki@mail.ru",
+    "bday": "16",
+    "bmonth": "November",
+    "byear": "1800",
+    "group": "Теперь должно получиться",
+    "secondAddress": "г. Чёртовы Кулички д.15 кв.1",
+    "notes": "Давайте всё получится?"
+  }
+]

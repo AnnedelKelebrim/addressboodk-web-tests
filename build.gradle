@@ -23,11 +23,28 @@ task testGroups(type: Test) {
     useTestNG {
         suites 'src/test/resource/testng-groups.xml'
     }
+    if (project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
 }
 task testContacts(type: Test) {
     useTestNG {
-        suites 'src/test/resource/testng-contacts.xml'
+        suites 'src/test/resources/testng-contacts.xml'
     }
-    systemProperty 'browser',"${browser}"
+    if (project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
 }
- 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+tasks.withType(Test) {
+    systemProperty "file.encoding", "UTF-8"
+}
+
