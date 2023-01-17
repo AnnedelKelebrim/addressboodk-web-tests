@@ -1,13 +1,15 @@
 package ru.stqa.pft.addressbook.model;
 
 import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import java.io.File;
 import java.util.Objects;
 
+@XStreamAlias(value = "contacts")//этот заголовок заменяем на указанный"contacts"
 public class ContactData {
-    @XStreamOmitField
+    @XStreamOmitField//ОЗНАЧАЕТ, ЧТО ЭТО ПОЛЕ НЕ НАДО ПИСАТЬ В ХМЛ
     private int id = Integer.MAX_VALUE;
     @Expose
     private String firstName;
