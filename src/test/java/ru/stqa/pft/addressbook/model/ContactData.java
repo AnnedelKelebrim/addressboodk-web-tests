@@ -66,7 +66,7 @@ public class ContactData {
     private String allEmails;
     @Expose
     @Type(type = "byte")
-    private String bday;
+    private byte bday;
     @Expose
     private String bmonth;
     @Expose
@@ -151,7 +151,7 @@ public class ContactData {
     }
 
     public String getBday() {
-        return bday;
+        return String.valueOf(bday);
     }
 
     public String getBmonth() {
@@ -259,7 +259,7 @@ public class ContactData {
     }
 
     public ContactData withBday(String bday) {
-        this.bday = bday.;
+        this.bday = (byte) Integer.parseInt(bday);
         return this;
     }
 
