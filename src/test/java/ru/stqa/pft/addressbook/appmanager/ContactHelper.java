@@ -61,7 +61,6 @@ public class ContactHelper extends HelperBase {
         type(By.name("byear"), contactData.getByear());
         type(By.name("address2"), contactData.getSecondAddress());
         type(By.name("notes"), contactData.getNotes());
-        attach(By.name("photo"), contactData.getPhoto());
     }
 
     public void selectContactById(int id) {
