@@ -68,7 +68,7 @@ public class ContactDataGenerator {
                         contact.getBday(),
                         contact.getBmonth(),
                         contact.getByear(),
-                        contact.getGroup(),
+                        contact.getGroups().iterator().next().getName(),
                         contact.getSecondAddress(),
                         contact.getNotes()));
             }
@@ -96,9 +96,9 @@ public class ContactDataGenerator {
         List<ContactData> contacts = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             contacts.add(new ContactData()
-                    .withFirstName("Vasya" + i)
+                    .withFirstName("Vasya")
                     .withMiddleName("")
-                    .withLastName("Pupkin")
+                    .withLastName("Pupkin" + i)
                     .withNickName("Самоха")
                     .withWho("Писатель")
                     .withCompany("Союз писателей")
@@ -109,7 +109,6 @@ public class ContactDataGenerator {
                     .withBday("16")
                     .withBmonth("November")
                     .withByear("1800")
-                    .withGroup("Теперь должно получиться")
                     .withSecondAddress("г. Чёртовы Кулички д.15 кв.1")
                     .withNotes("Давайте всё получится?"));
         }

@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.appmanager.TestBase;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,7 +30,7 @@ public class ContactAddressTests extends TestBase {
                     .withBday("16")
                     .withBmonth("November")
                     .withByear("1800")
-                    .withGroup("Теперь должно получиться")
+                    .inGroup(new Groups().iterator().next())
                     .withSecondAddress("г. Чёртовы Кулички д.15 кв.1")
                     .withNotes("Давайте всё получится?"));
         }

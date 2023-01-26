@@ -19,3 +19,6 @@ gradle-app.setting
 
 *.class
 *.log
+*.json
+*.xml
+*.csv

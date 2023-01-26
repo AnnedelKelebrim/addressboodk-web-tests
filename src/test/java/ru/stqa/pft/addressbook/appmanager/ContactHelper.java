@@ -35,12 +35,13 @@ public class ContactHelper extends HelperBase {
 
     public void fillContactForm(ContactData contactData, boolean creation) {
         if (creation) {
-            if (!isThereAGroupByName(contactData.getGroup())) {
+            if (contactData.getGroups().size() == 0) {
                 app.goTo().groupPage();
-                app.group().create(new GroupData().withName(contactData.getGroup()).withHeader("skdjfh").withFooter("ajdhfbvlksjdhv"));
+                app.group().create(new GroupData().withName("Подготовошная").withHeader("Группа").withFooter("Длясоздания"));
                 app.goTo().createContactPage();
             }
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            Assert.assertTrue(contactData.getGroups().size() == 1);
+            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }

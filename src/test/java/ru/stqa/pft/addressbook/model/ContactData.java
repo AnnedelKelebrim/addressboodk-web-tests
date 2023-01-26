@@ -3,12 +3,13 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @XStreamAlias(value = "contacts")//этот заголовок заменяем на указанный"contacts"
 @Entity
@@ -71,9 +72,11 @@ public class ContactData {
     private String bmonth;
     @Expose
     private String byear;
+
     @Expose
-    @Transient
-    private String group;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupData> groups = new HashSet<GroupData>();
     @Expose
     @Column(name = "address2")
     @Type(type = "text")
@@ -162,8 +165,8 @@ public class ContactData {
         return byear;
     }
 
-    public String getGroup() {
-        return group;
+    public Groups getGroups() {
+        return new Groups(groups);
     }
 
     public String getSecondAddress() {
@@ -286,8 +289,8 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withGroup(String group) {
-        this.group = group;
+    public ContactData inGroup(GroupData group) {
+        groups.add(group);
         return this;
     }
 
@@ -314,5 +317,4 @@ public class ContactData {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
-
 }
