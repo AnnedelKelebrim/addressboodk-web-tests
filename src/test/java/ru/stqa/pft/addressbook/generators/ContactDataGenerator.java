@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -39,14 +40,19 @@ public class ContactDataGenerator {
 
     private void run() throws IOException {
         List<ContactData> contacts = generateContacts(count);
-        if (format.equals("csv")) {
-            saveAsCsv(contacts, new File(file));
-        } else if (format.equals("xml")) {
-            saveAsXml(contacts, new File(file));
-        } else if (format.equals("json")) {
-            saveAsJson(contacts, new File(file));
-        } else {
-            System.out.println("Я чото не понял, что за формат такой - '" + format + "'?");
+        switch (format) {
+            case "csv":
+                saveAsCsv(contacts, new File(file));
+                break;
+            case "xml":
+                saveAsXml(contacts, new File(file));
+                break;
+            case "json":
+                saveAsJson(contacts, new File(file));
+                break;
+            default:
+                System.out.println("Я чото не понял, что за формат такой - '" + format + "'?");
+                break;
         }
     }
 
@@ -108,6 +114,7 @@ public class ContactDataGenerator {
                     .withFirstEmail("kulichki@mail.ru")
                     .withBday("16")
                     .withBmonth("November")
+                    .inGroup(new GroupData().withName("Генерация контакта"))
                     .withByear("1800")
                     .withSecondAddress("г. Чёртовы Кулички д.15 кв.1")
                     .withNotes("Давайте всё получится?"));

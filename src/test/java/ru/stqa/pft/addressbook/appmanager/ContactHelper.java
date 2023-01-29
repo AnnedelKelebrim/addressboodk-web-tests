@@ -8,6 +8,7 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.HashSet;
 import java.util.List;
@@ -35,13 +36,7 @@ public class ContactHelper extends HelperBase {
 
     public void fillContactForm(ContactData contactData, boolean creation) {
         if (creation) {
-            if (contactData.getGroups().size() == 0) {
-                app.goTo().groupPage();
-                app.group().create(new GroupData().withName("Подготовошная").withHeader("Группа").withFooter("Длясоздания"));
-                app.goTo().createContactPage();
-            }
-            Assert.assertTrue(contactData.getGroups().size() == 1);
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+            checkAndFillContactGroup(contactData);
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
@@ -62,6 +57,26 @@ public class ContactHelper extends HelperBase {
         type(By.name("byear"), contactData.getByear());
         type(By.name("address2"), contactData.getSecondAddress());
         type(By.name("notes"), contactData.getNotes());
+    }
+
+    private void checkAndFillContactGroup(ContactData contactData) {
+        String groupName = "Подготовошная";
+        if (app.db().groups().size() == 0) {
+            if (contactData.getGroups().size() > 0) {
+                groupName = contactData.getGroups().iterator().next().getName();
+            }
+            app.goTo().groupPage();
+            app.group().create(new GroupData().withName(groupName).withHeader("Группа").withFooter("Длясоздания"));
+            app.goTo().createContactPage();
+        } else if (contactData.getGroups().size() == 1) {
+            groupName = contactData.getGroups().iterator().next().getName();
+            if (!isThereAGroupByNameDB(groupName)) {
+                app.goTo().groupPage();
+                app.group().create(new GroupData().withName(groupName).withHeader("Группа").withFooter("Длясоздания"));
+                app.goTo().createContactPage();
+            }
+        }
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(groupName);
     }
 
     public void selectContactById(int id) {
@@ -87,6 +102,16 @@ public class ContactHelper extends HelperBase {
 
     public boolean isThereAGroupByName(String group) {
         return isElementPresent(By.xpath("//select[@name='new_group']/option[.='" + group + "']"));
+    }
+
+    public boolean isThereAGroupByNameDB(String contactGroupName) {
+        Groups groupsFromDB = app.db().groups();
+        for (GroupData groupName : groupsFromDB) {
+            if (groupName.getName().equals(contactGroupName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void create(ContactData contact) {
