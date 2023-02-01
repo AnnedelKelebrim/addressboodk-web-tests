@@ -1,5 +1,7 @@
 package ru.stqa.pft.addressbook.appmanager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,9 +12,15 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ContactHelper extends HelperBase {
     private ApplicationManager app;
@@ -61,20 +69,13 @@ public class ContactHelper extends HelperBase {
 
     private void checkAndFillContactGroup(ContactData contactData) {
         String groupName = "Подготовошная";
-        if (app.db().groups().size() == 0) {
-            if (contactData.getGroups().size() > 0) {
-                groupName = contactData.getGroups().iterator().next().getName();
-            }
+        if (contactData.getGroups().size() == 1) {
+            groupName = contactData.getGroups().iterator().next().getName();
+        }
+        if (app.db().groups().size() == 0 || !isThereAGroupByNameDB(groupName)) {
             app.goTo().groupPage();
             app.group().create(new GroupData().withName(groupName).withHeader("Группа").withFooter("Длясоздания"));
             app.goTo().createContactPage();
-        } else if (contactData.getGroups().size() == 1) {
-            groupName = contactData.getGroups().iterator().next().getName();
-            if (!isThereAGroupByNameDB(groupName)) {
-                app.goTo().groupPage();
-                app.group().create(new GroupData().withName(groupName).withHeader("Группа").withFooter("Длясоздания"));
-                app.goTo().createContactPage();
-            }
         }
         new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(groupName);
     }
@@ -89,6 +90,9 @@ public class ContactHelper extends HelperBase {
 
     public void returnToHomePage() {
         click(By.linkText("home page"));
+    }
+    public void returnToThisGroupPage(String groupName) {
+        click(By.linkText("group page \""+ groupName + "\""));
     }
 
     public void closeAlert() {
@@ -135,7 +139,14 @@ public class ContactHelper extends HelperBase {
         contactCache = null;
         returnToHomePage();
     }
+    public void addToGroup(ContactData contact, GroupData group) {
+        selectContactById(contact.getId());
+        selectGroupForContact(group);
+        submitAddToGroup();
+        contactCache = null;
+        returnToThisGroupPage(group.getName());
 
+    }
     public int count() {
         return wd.findElements(By.name("selected[]")).size();
     }
@@ -201,5 +212,28 @@ public class ContactHelper extends HelperBase {
                 .withFirstEmail(email1)
                 .withSecondEmail(email2)
                 .withThirdEmail(email3);
+    }
+
+    public Iterator<Object[]> createValidContactsFromJson() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/сontacts.json")))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                line = reader.readLine();
+            }
+            Gson gson = new Gson();
+            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>() {
+            }.getType());// = List<ContactData>.class
+            return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+        }
+    }
+
+    private void selectGroupForContact(GroupData group) {
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+    }
+
+    private void submitAddToGroup() {
+        click(By.xpath("//div[@class='right']/input[@value='Add to']"));
     }
 }
