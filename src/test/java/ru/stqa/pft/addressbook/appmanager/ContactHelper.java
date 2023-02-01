@@ -42,29 +42,64 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//div[@id='content']/form/input[22]"));
     }
 
+    private void submitAddToGroup() {
+        click(By.xpath("//div[@class='right']/input[@value='Add to']"));
+    }
+
     public void fillContactForm(ContactData contactData, boolean creation) {
         if (creation) {
             checkAndFillContactGroup(contactData);
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
-
-        type(By.name("firstname"), contactData.getFirstName());
-        type(By.name("middlename"), contactData.getMiddleName());
-        type(By.name("lastname"), contactData.getLastName());
-        type(By.name("nickname"), contactData.getNickName());
-        type(By.name("title"), contactData.getWho());
-        type(By.name("company"), contactData.getCompany());
-        type(By.name("address"), contactData.getFirstAddress());
-        type(By.name("home"), contactData.getHomePhone());
-        type(By.name("mobile"), contactData.getMobilePhone());
-        type(By.name("work"), contactData.getWorkPhone());
-        type(By.name("email"), contactData.getFirstEmail());
-        selectList(By.name("bday"), contactData.getBday());
-        selectList(By.name("bmonth"), contactData.getBmonth());
-        type(By.name("byear"), contactData.getByear());
-        type(By.name("address2"), contactData.getSecondAddress());
-        type(By.name("notes"), contactData.getNotes());
+        if (contactData.getFirstName() != null) {
+            type(By.name("firstname"), contactData.getFirstName());
+        }
+        if (contactData.getMiddleName() != null) {
+            type(By.name("middlename"), contactData.getMiddleName());
+        }
+        if (contactData.getLastName() != null) {
+            type(By.name("lastname"), contactData.getLastName());
+        }
+        if (contactData.getNickName() != null) {
+            type(By.name("nickname"), contactData.getNickName());
+        }
+        if (contactData.getWho() != null) {
+            type(By.name("title"), contactData.getWho());
+        }
+        if (contactData.getCompany() != null) {
+            type(By.name("company"), contactData.getCompany());
+        }
+        if (contactData.getFirstAddress() != null) {
+            type(By.name("address"), contactData.getFirstAddress());
+        }
+        if (contactData.getHomePhone() != null) {
+            type(By.name("home"), contactData.getHomePhone());
+        }
+        if (contactData.getMobilePhone() != null) {
+            type(By.name("mobile"), contactData.getMobilePhone());
+        }
+        if (contactData.getWorkPhone() != null) {
+            type(By.name("work"), contactData.getWorkPhone());
+        }
+        if (contactData.getFirstEmail() != null) {
+            type(By.name("email"), contactData.getFirstEmail());
+        }
+        if (Integer.parseInt(contactData.getBday()) > 0) {
+            selectList(By.name("bday"), contactData.getBday());
+        }
+        if (contactData.getBmonth() != null) {
+            selectList(By.name("bmonth"), contactData.getBmonth());
+        }
+        if (contactData.getByear() != null) {
+            type(By.name("byear"), contactData.getByear());
+        }
+        if (contactData.getSecondAddress() != null) {
+            type(By.name("address2"), contactData.getSecondAddress());
+        }
+        if (contactData.getNotes() != null) {
+            type(By.name("notes"), contactData.getNotes());
+        }
     }
 
     private void checkAndFillContactGroup(ContactData contactData) {
@@ -84,6 +119,10 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.cssSelector("input[id='" + id + "']")).click();
     }
 
+    private void selectGroupForContact(GroupData group) {
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+    }
+
     public void goToEditContactPage(int id) {
         click(By.xpath("//tr[@name='entry']/td[8]/a[@href='edit.php?id=" + id + "']"));
     }
@@ -91,8 +130,9 @@ public class ContactHelper extends HelperBase {
     public void returnToHomePage() {
         click(By.linkText("home page"));
     }
+
     public void returnToThisGroupPage(String groupName) {
-        click(By.linkText("group page \""+ groupName + "\""));
+        click(By.linkText("group page \"" + groupName + "\""));
     }
 
     public void closeAlert() {
@@ -139,6 +179,7 @@ public class ContactHelper extends HelperBase {
         contactCache = null;
         returnToHomePage();
     }
+
     public void addToGroup(ContactData contact, GroupData group) {
         selectContactById(contact.getId());
         selectGroupForContact(group);
@@ -147,6 +188,7 @@ public class ContactHelper extends HelperBase {
         returnToThisGroupPage(group.getName());
 
     }
+
     public int count() {
         return wd.findElements(By.name("selected[]")).size();
     }
@@ -227,13 +269,5 @@ public class ContactHelper extends HelperBase {
             }.getType());// = List<ContactData>.class
             return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
-    }
-
-    private void selectGroupForContact(GroupData group) {
-        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
-    }
-
-    private void submitAddToGroup() {
-        click(By.xpath("//div[@class='right']/input[@value='Add to']"));
     }
 }
