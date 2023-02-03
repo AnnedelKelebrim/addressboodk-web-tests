@@ -46,12 +46,18 @@ public class ContactHelper extends HelperBase {
         }
         if (contactData.getFirstName() != null) {
             type(By.name("firstname"), contactData.getFirstName());
+        } else {
+            type(By.name("firstname"), "Новый");
         }
         if (contactData.getMiddleName() != null) {
             type(By.name("middlename"), contactData.getMiddleName());
+        } else {
+            type(By.name("middlename"), "Контакт");
         }
         if (contactData.getLastName() != null) {
             type(By.name("lastname"), contactData.getLastName());
+        } else {
+            type(By.name("lastname"), "Поумолчанию");
         }
         if (contactData.getNickName() != null) {
             type(By.name("nickname"), contactData.getNickName());

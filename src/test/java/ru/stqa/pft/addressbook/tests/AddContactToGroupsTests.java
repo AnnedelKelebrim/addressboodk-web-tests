@@ -8,6 +8,11 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -17,20 +22,16 @@ public class AddContactToGroupsTests extends TestBase {
         if (app.db().contacts().size() == 0) {
             app.goTo().homePage();
             app.goTo().createContactPage();
-            app.contact().create(new ContactData()
-                    .withFirstName("Подготовка")
-                    .withMiddleName("Данных")
-                    .withLastName("Добавлениевгруппу"));
+            app.contact().create(new ContactData());
         }
         if (app.db().groups().size() == 0) {
             app.goTo().groupPage();
-            app.group().create(new GroupData()
-                    .withName("Новаягруппа"));
+            app.group().create(new GroupData());
         }
     }
 
     @Test
-    public void testAddContactInGroups() {
+    public void testAddContactInGroup() {
         ContactData testContact = app.db().contacts().iterator().next();
         GroupData groupToAdd = app.group().groupWithoutSelectedContact(testContact);
 

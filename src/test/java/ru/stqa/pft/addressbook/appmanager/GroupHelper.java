@@ -29,7 +29,8 @@ public class GroupHelper extends HelperBase {
     public void fillGroupForm(GroupData groupData) {
         if (groupData.getName() != null) {
             type(By.name("group_name"), groupData.getName());
-        }
+        } else type(By.name("group_name"), "По умолчанию №" + (int) (Math.random() * 1000));
+
         if (groupData.getHeader() != null) {
             wd.findElement(By.name("group_header")).clear();
             wd.findElement(By.name("group_header")).sendKeys(groupData.getHeader());
