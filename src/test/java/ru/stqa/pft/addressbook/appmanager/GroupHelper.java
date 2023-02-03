@@ -3,10 +3,14 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.List;
+import java.util.UUID;
+
+import static ru.stqa.pft.addressbook.appmanager.TestBase.app;
 
 public class GroupHelper extends HelperBase {
 
@@ -103,5 +107,29 @@ public class GroupHelper extends HelperBase {
             groupCache.add(group);
         }
         return new Groups(groupCache);
+    }
+
+    public GroupData groupWithoutSelectedContact(ContactData contact) {
+        Groups groups = cleanedGroupList(contact);
+        groups = prepareGroupToAdd(contact, groups);
+        GroupData group = groups.iterator().next();
+        return group;
+    }
+
+    private Groups prepareGroupToAdd(ContactData contact, Groups groups) {
+        if (groups.size() == 0) {
+            app.goTo().groupPage();
+            app.group().create(new GroupData()
+                    .withName("Патамуштавсезаняты: " + UUID.randomUUID()));
+            groups = cleanedGroupList(contact);
+
+        }
+        return groups;
+    }
+
+    public Groups cleanedGroupList(ContactData contact) {
+        Groups groups = app.db().groups();
+        groups.removeAll(contact.getGroups());
+        return groups;
     }
 }

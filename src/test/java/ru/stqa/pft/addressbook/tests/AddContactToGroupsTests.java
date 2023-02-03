@@ -8,6 +8,9 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 public class AddContactToGroupsTests extends TestBase {
     @BeforeTest()
     public void ensurePreconditions() {
@@ -18,9 +21,8 @@ public class AddContactToGroupsTests extends TestBase {
                     .withFirstName("Подготовка")
                     .withMiddleName("Данных")
                     .withLastName("Добавлениевгруппу"));
-            app.contact().returnToHomePage();
         }
-        if (app.db().groups().size() == 0){
+        if (app.db().groups().size() == 0) {
             app.goTo().groupPage();
             app.group().create(new GroupData()
                     .withName("Новаягруппа"));
@@ -28,12 +30,25 @@ public class AddContactToGroupsTests extends TestBase {
     }
 
     @Test
-    public void testAddContactInGroups(){
-        Groups groupsBefore = app.db().groups();
-        Contacts contactsBefore = app.db().contacts();
-        GroupData addGroup = groupsBefore.iterator().next();
-        ContactData testContact = contactsBefore.iterator().next();
+    public void testAddContactInGroups() {
+        ContactData testContact = app.db().contacts().iterator().next();
+        GroupData groupToAdd = app.group().groupWithoutSelectedContact(testContact);
+
+        Groups contactGroupsBefore = testContact.getGroups();
+
+        Contacts groupContactsBefore;
+        groupContactsBefore = groupToAdd.getContacts();
+
         app.goTo().homePage();
-        app.contact().addToGroup(testContact,addGroup);
+        app.contact().addContactToGroup(testContact, groupToAdd);
+
+        ContactData testContactAfter = app.db().getContactByIdFromDB(testContact.getId());
+        GroupData groupAfterAdd = app.db().getGroupByIdFromDb(groupToAdd.getId());
+        Groups contactGroupsAfter = testContactAfter.getGroups();
+        Contacts groupContactsAfter = groupAfterAdd.getContacts();
+
+        assertThat(contactGroupsAfter, equalTo(contactGroupsBefore.withAdded(groupToAdd)));
+        assertThat(groupContactsAfter, equalTo(groupContactsBefore.withAdded(testContact)));
+
     }
 }

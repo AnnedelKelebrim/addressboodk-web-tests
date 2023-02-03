@@ -1,7 +1,5 @@
 package ru.stqa.pft.addressbook.appmanager;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,15 +10,9 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class ContactHelper extends HelperBase {
     private ApplicationManager app;
@@ -180,13 +172,18 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
-    public void addToGroup(ContactData contact, GroupData group) {
+    public void addContactToGroup(ContactData contact, GroupData group) {
         selectContactById(contact.getId());
         selectGroupForContact(group);
         submitAddToGroup();
         contactCache = null;
         returnToThisGroupPage(group.getName());
 
+    }
+
+    public void deleteSelectedContactFromGroup(ContactData contact) {
+        selectContactById(contact.getId());
+        click(By.cssSelector("input[name='remove']"));
     }
 
     public int count() {
@@ -256,18 +253,13 @@ public class ContactHelper extends HelperBase {
                 .withThirdEmail(email3);
     }
 
-    public Iterator<Object[]> createValidContactsFromJson() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/сontacts.json")))) {
-            String json = "";
-            String line = reader.readLine();
-            while (line != null) {
-                json += line;
-                line = reader.readLine();
+    public ContactData contactInGroup(Contacts contacts) {
+        for (ContactData contact : contacts) {
+            Set<GroupData> contactInGroup = contact.getGroups();
+            if (contact.getGroups().size() > 0) {
+                return contact;
             }
-            Gson gson = new Gson();
-            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>() {
-            }.getType());// = List<ContactData>.class
-            return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
+        return null;
     }
 }
