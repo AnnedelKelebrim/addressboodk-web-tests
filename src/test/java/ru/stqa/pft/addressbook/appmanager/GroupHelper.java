@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
@@ -20,6 +21,11 @@ public class GroupHelper extends HelperBase {
 
     public void returnToGroupPage() {
         click(By.linkText("group page"));
+    }
+
+    public void goToSelectedGroupPage(GroupData group){
+        app.goTo().homePage();
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
     }
 
     public void submitGroupCreation() {
@@ -123,7 +129,6 @@ public class GroupHelper extends HelperBase {
             app.group().create(new GroupData()
                     .withName("Патамуштавсезаняты: " + UUID.randomUUID()));
             groups = cleanedGroupList(contact);
-
         }
         return groups;
     }
@@ -132,5 +137,14 @@ public class GroupHelper extends HelperBase {
         Groups groups = app.db().groups();
         groups.removeAll(contact.getGroups());
         return groups;
+    }
+    public GroupData searchGroupToDeletion(ContactData testContact) {
+        GroupData groupToDeletion;
+        if(testContact.getGroups().size()==0){
+            groupToDeletion = app.db().groups().iterator().next();
+            app.goTo().homePage();
+            app.contact().addContactToGroup(testContact, groupToDeletion);
+        }else groupToDeletion = testContact.getGroups().iterator().next();
+        return groupToDeletion;
     }
 }

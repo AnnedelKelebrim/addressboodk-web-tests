@@ -8,11 +8,6 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -50,6 +45,27 @@ public class AddContactToGroupsTests extends TestBase {
 
         assertThat(contactGroupsAfter, equalTo(contactGroupsBefore.withAdded(groupToAdd)));
         assertThat(groupContactsAfter, equalTo(groupContactsBefore.withAdded(testContact)));
+
+    }
+    @Test
+    public void testDeleteContactFromGroup() {
+        ContactData testContact = app.db().contacts().iterator().next();
+        GroupData groupToDeletion;
+        groupToDeletion = app.group().searchGroupToDeletion(testContact);
+
+        Groups contactGroupsBefore = app.db().getContactByIdFromDB(testContact.getId()).getGroups();
+        Contacts groupContactsBefore = app.db().getGroupByIdFromDb(groupToDeletion.getId()).getContacts();
+
+        app.group().goToSelectedGroupPage(groupToDeletion);
+        app.contact().deleteSelectedContactFromGroup(testContact);
+
+        ContactData testContactAfter = app.db().getContactByIdFromDB(testContact.getId());
+        GroupData groupAfterDeletion = app.db().getGroupByIdFromDb(groupToDeletion.getId());
+        Groups contactGroupsAfter = testContactAfter.getGroups();
+        Contacts groupContactsAfter = groupAfterDeletion.getContacts();
+
+        assertThat(contactGroupsAfter, equalTo(contactGroupsBefore.without(groupToDeletion)));
+        assertThat(groupContactsAfter, equalTo(groupContactsBefore.without(testContact)));
 
     }
 }
